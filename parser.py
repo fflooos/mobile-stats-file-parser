@@ -18,7 +18,8 @@ scriptDir = os.path.dirname(os.path.abspath(__file__))
 # List of directory to look-up
 dirList =   {
                 "/mnt/xml_tmp/",
-                "/mnt/CORE_replica/sgwcg/xml/stn/" 
+                "/mnt/CORE_replica/sgwcg/xml/stn/",
+                "/mnt/CORE_replica/sgwcg/xml/mgw"
             }
 
 # Parse command line arguments
