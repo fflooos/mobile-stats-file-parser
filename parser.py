@@ -18,7 +18,7 @@ scriptDir = os.path.dirname(os.path.abspath(__file__))
 # List of directory to look-up
 dirList =   {
                 "/mnt/xml_tmp/",
-                "/mnt/CORE_replica/sgwcg/xml/stn/",
+                "/mnt/CORE_replica/sgwcg/xml/stn/"
                 "/mnt/CORE_replica/sgwcg/xml/mgw"
             }
 
@@ -82,6 +82,7 @@ def _parseFile(_file, wrap, parse_config):
                 print( "ERROR - No instance matching parsing config")
                 return 0
             instanceN = _clear_instance(instanceN)
+            if ( not len(instanceN) ): instanceN = "unmatch"
             if ( instanceN in wrap.instanceList) :
                 if ( debug ) : print( "DEBUG - Instance", instanceN," already exist")
                 instance = wrap.get_instance(instanceN)
@@ -334,6 +335,7 @@ def _clear_instance(instanceN) :
     for regex in split:
         match = re.match(regex, instanceN)
         if (match) : return match.group(1)
+        #else : print("DEBUG", regex, instanceN)
      
 # Function to extract value from proxy based on regex list   
 def _clear_proxy(proxyN) :
@@ -355,7 +357,8 @@ def _clear_timestamp(ts) :
         ts = datetime(int(match.group(1)), int(match.group(2)), int(match.group(3)), int(match.group(4)), int(match.group(5)) )
         if (match) :
                 ts - timedelta(minutes=15)
-                time = str(ts.year+ts.month+ts.day+ts.hour+ts.minute)
+                time = ts.strftime("%Y%m%d%H%M")
+                #print ("DEBUG", time);
                 return time
     return 0
 
