@@ -354,7 +354,7 @@ def _clear_timestamp(ts) :
         ts = datetime(int(match.group(1)), int(match.group(2)), int(match.group(3)), int(match.group(4)), int(match.group(5)) )
         if (match) :
                 ts - timedelta(minutes=15)
-                time = ts.year+ts.month+ts.day+ts.hour+ts.minute
+                time = str(ts.year+ts.month+ts.day+ts.hour+ts.minute)
                 return time
     return 0
 
