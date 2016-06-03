@@ -20,7 +20,7 @@ scriptDir = os.path.dirname(os.path.abspath(__file__))
 
 # List of directory to look-up
 dirList =   {
-                "/home/flo/work/vdf_qatar/script/"
+                "$HOME/script/"
             }
 
 # Parse command line arguments
