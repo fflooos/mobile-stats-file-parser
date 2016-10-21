@@ -283,51 +283,56 @@ def _write_counter(wrapper) :
     name_spliter = _get_config( wrapper.kind, "instance_name_split")
     if ( options.outdata ) :
         out = outDir+options.outdata+"_"+wrapper.kind+".csv"
-        fh = open (out, 'w')
+        try:
+            fh = open (out, 'w')
 
-        for instance in sorted(wrapper.instanceList) :
-            once = True
-            for _timestamp in sorted(wrapper.instanceList[instance].counterList) :
+            for instance in sorted(wrapper.instanceList) :
+                once = True
+                for _timestamp in sorted(wrapper.instanceList[instance].counterList) :
+                    if ( name_constant == 0 ) : instance_name = instance
+                    else : instance_name = name_constant+instance
+                    st = (_timestamp, instance_name)
+                    name_line = separator.join(st)
+                    value_line = separator.join(st)
+
+                    for counter in sorted(wrapper.instanceList[instance].counterList[_timestamp]) :
+                        name_line += ","+counter
+                        value_line += ","+wrapper.instanceList[instance].counterList[_timestamp][counter]
+                    if (once) :
+                        once = False
+                        fh.write("#")
+                        fh.write(name_line)
+                        fh.write("\n")
+                    fh.write(value_line)
+                    fh.write("\n")
+        except FileNotFoundError: print("ERROR - Unable to open file ", out, "for writing")
+
+        out = outDir+options.outdata+"_"+wrapper.kind+"_proxy.csv"
+        try:
+            fh = open (out, 'w')
+            for instance in sorted(wrapper.instanceList) :
                 if ( name_constant == 0 ) : instance_name = instance
                 else : instance_name = name_constant+instance
-                st = (_timestamp, instance_name)
-                name_line = separator.join(st)
-                value_line = separator.join(st)
-                
-                for counter in sorted(wrapper.instanceList[instance].counterList[_timestamp]) :
-                    name_line += ","+counter
-                    value_line += ","+wrapper.instanceList[instance].counterList[_timestamp][counter]
-                if (once) :
-                    once = False
-                    fh.write("#")
-                    fh.write(name_line)
-                    fh.write("\n")
-                fh.write(value_line)
-                fh.write("\n")
-                
-        out = outDir+options.outdata+"_"+wrapper.kind+"_proxy.csv"
-        fh = open (out, 'w')
-        for instance in sorted(wrapper.instanceList) :
-            if ( name_constant == 0 ) : instance_name = instance
-            else : instance_name = name_constant+instance
-            for proxy in sorted(wrapper.instanceList[instance].proxyList) :
-                ponce = True
-                for _timestamp in wrapper.instanceList[instance].proxyList[proxy].counterList :
-                    name = instance_name+"_"+proxy
-                    st = (_timestamp, name)
-                    pname_line = separator.join(st)
-                    pvalue_line = separator.join(st)
-                    for pcounter in sorted(wrapper.instanceList[instance].proxyList[proxy].counterList[_timestamp]) :
-                        pname_line += ","+pcounter
-                        pvalue_line += ","+wrapper.instanceList[instance].proxyList[proxy].counterList[_timestamp][pcounter]
-                       
-                    if (ponce) :
-                        ponce = False
-                        fh.write('#')
-                        fh.write( pname_line )
+                for proxy in sorted(wrapper.instanceList[instance].proxyList) :
+                    ponce = True
+                    for _timestamp in wrapper.instanceList[instance].proxyList[proxy].counterList :
+                        name = instance_name+"_"+proxy
+                        st = (_timestamp, name)
+                        pname_line = separator.join(st)
+                        pvalue_line = separator.join(st)
+                        for pcounter in sorted(wrapper.instanceList[instance].proxyList[proxy].counterList[_timestamp]) :
+                            pname_line += ","+pcounter
+                            pvalue_line += ","+wrapper.instanceList[instance].proxyList[proxy].counterList[_timestamp][pcounter]
+
+                        if (ponce) :
+                            ponce = False
+                            fh.write('#')
+                            fh.write( pname_line )
+                            fh.write("\n")
+                        fh.write( pvalue_line )
                         fh.write("\n")
-                    fh.write( pvalue_line )
-                    fh.write("\n")
+
+        except FileNotFoundError: print("ERROR - Unable to open file ", out, "for writing")
 
 # Function to extract value from instance based on regex list
 def _clear_instance(instanceN) :
