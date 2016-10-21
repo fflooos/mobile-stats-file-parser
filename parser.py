@@ -25,9 +25,9 @@ dirList =   {
 # Parse command line arguments
 parser = OptionParser()
 parser.add_option("-t", "--topo", dest="outfile",
-                  help="write topology to <FILENAME>", metavar="FILE")
+                  help="Generate topology file(s) with format <filename template>_<config set name>.csv", metavar="FILE")
 parser.add_option("-d", "--data", dest="outdata",
-                  help="write data to <FILENAME>", metavar="FILE")
+                  help="Generate datafile(s) with format <filename template>_<config set name>_<timestamp>.csv", metavar="FILE")
 parser.add_option("-v", "--verbose",
                   action="store_true", dest="debug", default=False,
                   help="Enable debug mode to stdout")

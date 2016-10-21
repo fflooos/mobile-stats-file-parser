@@ -58,13 +58,11 @@ Defining lastdate parameter :
 # OPTIONS
 
     usage: parser.py [-t] [-d] [-v] [-m]
-        Retrieve GPS coordinated from gMaps using post address from input file
-        positional arguments:
-            input_file     input file
-            output_file    output file
-            set            List of columns containing postal address separated by ',' (Ex: "3,4,5")
+        Parse and generate topology and data file from input files:
         optional arguments:
-            -h, --help     show this help message and exit
-            -d, --debug    Enable debugging information
+            -t, --topo  <file_name_template>    Generate topology file(s) with format <filename template>_<config set name>.csv
+            -d, --data  <file_name_template>    Generate datafile(s) with format <filename template>_<config set name>_<timestamp>.csv
+            -m, --mode <Config Set name>      Enable parsing on a specific config set in parser_merged.ini
+                                              ie: for [MGW] => -m MGW
             -v, --version  Show debug information
 
