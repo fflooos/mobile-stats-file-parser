@@ -251,28 +251,30 @@ def _write_topo(wrapper) :
     if ( options.outfile ) :
         out = outDir+options.outfile+"_"+wrapper.kind+".csv"
         #print ( "Printing output to ", out)
-        fh = open (out, 'w')
-        for instance in sorted(wrapper.instanceList) :
-            if ( name_constant == 0 ) : instance_name = instance
-            else : instance_name = name_constant+instance
-            st = ("DBASIC", instance_name)
-            fh.write( separator.join(st) )
-            fh.write("\n")
-            for proxy in sorted(wrapper.get_instance(instance).proxyList) :
-                if (not name_spliter == 0) :
-                    split = proxy.split(name_spliter)
-                    try :
-                        name = proxy
-                        ntype = split[0]
-                    except IndexError :
-                        name = proxy
-                        ntype = proxy
-                else :
-                    name = proxy
-                    ntype = proxy
-                st = ("DPROXY", name, ntype,instance_name)
+        try:
+            fh = open (out, 'w')
+            for instance in sorted(wrapper.instanceList) :
+                if ( name_constant == 0 ) : instance_name = instance
+                else : instance_name = name_constant+instance
+                st = ("DBASIC", instance_name)
                 fh.write( separator.join(st) )
                 fh.write("\n")
+                for proxy in sorted(wrapper.get_instance(instance).proxyList) :
+                    if (not name_spliter == 0) :
+                        split = proxy.split(name_spliter)
+                        try :
+                            name = proxy
+                            ntype = split[0]
+                        except IndexError :
+                            name = proxy
+                            ntype = proxy
+                    else :
+                        name = proxy
+                        ntype = proxy
+                    st = ("DPROXY", name, ntype,instance_name)
+                    fh.write( separator.join(st) )
+                    fh.write("\n")
+        except FileNotFoundError : print("ERROR - Unable to open file ", out, "for writing")
 
 def _write_counter(wrapper) :
     separator = ','
